@@ -526,9 +526,18 @@ async function submitOrder(){
     body:JSON.stringify(o)
   });
 
-  const lineUrl =
-    "https://line.me/R/oaMessage/@290klcqr/?" +
-    encodeURIComponent(o.text);
+  const shortText =
+  "我要送出訂單\n" +
+  "姓名：" + (o.customer.name || "未填") + "\n" +
+  "電話：" + (o.customer.phone || "未填") + "\n" +
+  "取餐方式：" + (o.customer.takeType || "未填") + "\n" +
+  "時間：" + (o.customer.arriveTime || "未填") + "\n" +
+  "總數量：" + o.qtyTotal + "份\n" +
+  "總金額：$" + o.amountTotal;
+
+const lineUrl =
+  "https://line.me/R/oaMessage/@290klcqr/?" +
+  encodeURIComponent(shortText);
 
   alert("訂單已送出！\n接下來會開啟 LINE，請按送出，將訂單傳給192巷食堂。");
 
