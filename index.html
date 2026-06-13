@@ -160,6 +160,24 @@ font-size:14px;">
 </p>
 </header>
 
+  <div class="card">
+  <h2>🔍 查詢我的訂單</h2>
+
+  <label>電話</label>
+  <input id="queryPhone" placeholder="請輸入訂購電話">
+
+  <button
+    style="width:100%;margin-top:10px;"
+    onclick="queryOrder()">
+    查詢最近一筆訂單
+  </button>
+
+  <div
+    id="queryResult"
+    style="margin-top:12px;line-height:1.8;white-space:pre-wrap;">
+  </div>
+</div>
+  
 <div class="container">
 <div class="card">
 <h2>訂購人資料</h2>
@@ -521,6 +539,58 @@ function buildOrder(){
       memo: document.getElementById("memo").value || ""
     }
   };
+}
+  function queryOrder(){
+
+  const phone =
+    document.getElementById("queryPhone").value.trim();
+
+  const result =
+    document.getElementById("queryResult");
+
+  if(!phone){
+    alert("請輸入電話");
+    return;
+  }
+
+  result.innerHTML = "查詢中...";
+
+  fetch(
+    GOOGLE_SCRIPT_URL +
+    "?action=query&phone=" +
+    encodeURIComponent(phone)
+  )
+  .then(r=>r.json())
+  .then(res=>{
+
+    if(!res.ok){
+      result.innerHTML =
+        "❌ " + res.message;
+      return;
+    }
+
+    const o = res.order;
+
+    result.innerHTML =
+`
+✅ 最近一筆訂單
+
+訂單編號：${o.orderId}
+姓名：${o.name}
+電話：${o.phone}
+取餐方式：${o.takeType}
+取餐時間：${o.arriveTime || '未填'}
+
+總數量：${o.qtyTotal}
+總金額：$${o.amountTotal}
+
+${o.orderText || ''}
+`;
+  })
+  .catch(err=>{
+    result.innerHTML =
+      "❌ 查詢失敗";
+  });
 }
 async function copyOrder(){const o=buildOrder();if(!o)return;await navigator.clipboard.writeText(o.text);alert("訂單文字已複製");}
 async function submitOrder(){
