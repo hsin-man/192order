@@ -541,9 +541,13 @@ const lineUrl =
 
   alert("訂單已送出！\n接下來會開啟 LINE，請按送出，將訂單傳給192巷食堂。");
 
-  window.open(lineUrl,"_blank");
+  alert("訂單已送出！接下來會開啟 LINE，請在 LINE 裡按送出。");
 
+location.href = lineUrl;
+
+setTimeout(function(){
   resetOrder();
+}, 1000);
 }
 function resetOrder(){document.querySelectorAll(".line-card").forEach(x=>x.remove());document.querySelectorAll(".direct-qty").forEach(x=>x.value=0);document.querySelectorAll(".direct-remark").forEach(x=>x.value="");calculate();}
 
