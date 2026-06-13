@@ -511,10 +511,30 @@ function buildOrder(){
 }
 async function copyOrder(){const o=buildOrder();if(!o)return;await navigator.clipboard.writeText(o.text);alert("訂單文字已複製");}
 async function submitOrder(){
-  const o=buildOrder(); if(!o)return;
-  if(GOOGLE_SCRIPT_URL.includes("PASTE_")){alert("尚未設定 Google Apps Script 收單網址。");return;}
-  await fetch(GOOGLE_SCRIPT_URL,{method:"POST",mode:"no-cors",body:JSON.stringify(o)});
-  alert("訂單已送出！"); resetOrder();
+
+  const o = buildOrder();
+  if(!o) return;
+
+  if(GOOGLE_SCRIPT_URL.includes("PASTE_")){
+    alert("尚未設定 Google Apps Script 收單網址。");
+    return;
+  }
+
+  await fetch(GOOGLE_SCRIPT_URL,{
+    method:"POST",
+    mode:"no-cors",
+    body:JSON.stringify(o)
+  });
+
+  const lineUrl =
+    "https://line.me/R/oaMessage/@290klcqr/?" +
+    encodeURIComponent(o.text);
+
+  alert("訂單已送出！\n接下來會開啟 LINE，請按送出，將訂單傳給192巷食堂。");
+
+  window.open(lineUrl,"_blank");
+
+  resetOrder();
 }
 function resetOrder(){document.querySelectorAll(".line-card").forEach(x=>x.remove());document.querySelectorAll(".direct-qty").forEach(x=>x.value=0);document.querySelectorAll(".direct-remark").forEach(x=>x.value="");calculate();}
 
