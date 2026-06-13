@@ -573,19 +573,7 @@ function buildOrder(){
 
     result.innerHTML =
 `
-✅ 最近一筆訂單
-
-訂單編號：${o.orderId}
-姓名：${o.name}
-電話：${o.phone}
-取餐方式：${o.takeType}
-取餐時間：${o.arriveTime || '未填'}
-
-總數量：${o.qtyTotal}
-總金額：$${o.amountTotal}
-
-${o.orderText || ''}
-`;
+    result.innerHTML = o.orderText || "查無訂單內容";
   })
   .catch(err=>{
     result.innerHTML =
