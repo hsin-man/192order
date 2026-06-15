@@ -791,7 +791,53 @@ function buildOrder(){
   });
 }
 async function copyOrder(){const o=buildOrder();if(!o)return;await navigator.clipboard.writeText(o.text);alert("訂單文字已複製");}
+let isSubmitting = false;
+
 async function submitOrder(){
+  if(isSubmitting) return;
+
+  const o = buildOrder();
+  if(!o) return;
+
+  isSubmitting = true;
+
+  const btn = document.querySelector('.mobile-cart-panel button:nth-child(2)');
+  const oldText = btn ? btn.textContent : '';
+
+  if(btn){
+    btn.disabled = true;
+    btn.textContent = '送出中...';
+    btn.style.opacity = '.6';
+  }
+
+  try{
+    if(GOOGLE_SCRIPT_URL.includes("PASTE_")){
+      alert("尚未設定 Google Apps Script 收單網址。");
+      return;
+    }
+
+    await fetch(GOOGLE_SCRIPT_URL,{
+      method:"POST",
+      mode:"no-cors",
+      body:JSON.stringify(o)
+    });
+
+    alert("訂單已送出！");
+    resetOrder();
+
+  }catch(err){
+    alert("送出失敗，請稍後再試。");
+
+  }finally{
+    isSubmitting = false;
+
+    if(btn){
+      btn.disabled = false;
+      btn.textContent = oldText || '送出訂單';
+      btn.style.opacity = '1';
+    }
+  }
+}
   const o=buildOrder(); if(!o)return;
   if(GOOGLE_SCRIPT_URL.includes("PASTE_")){alert("尚未設定 Google Apps Script 收單網址。");return;}
   await fetch(GOOGLE_SCRIPT_URL,{method:"POST",mode:"no-cors",body:JSON.stringify(o)});
