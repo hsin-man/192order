@@ -338,7 +338,7 @@ font-size:14px;">
 <div class="card">
 <h2>訂購人資料</h2>
 <div class="grid">
-<div><label>姓名</label><input id="name" placeholder="請輸入姓名" autocomplete="off"></div>
+<div><label>姓名</label><input id="name" placeholder="請輸入姓名或Line名字" autocomplete="off"></div>
 <div><label>電話 <span style="color:red">*</span></label><input id="phone" placeholder="務必填寫電話" autocomplete="off" required></div>
 <div><label>取餐方式</label><select id="takeType" onchange="toggleAddressRequired()"><option>外送</option><option>外帶</option><option>內用</option></select></div>
 <div><label>外送地址 <span id="addressRequiredText" style="color:red">*</span></label><input id="address" placeholder="外送時必填" autocomplete="off"></div>
@@ -360,7 +360,7 @@ font-size:14px;">
 
 <div class="card">
 <h2>整體備註</h2>
-<textarea id="memo" rows="4" placeholder="例如：不要辣、分開裝、指定取餐時間"></textarea>
+<textarea id="memo" rows="4" placeholder="例如：不要辣、分開裝"></textarea>
 </div>
 </div>
 
@@ -390,7 +390,7 @@ const optionSets = {
   combo:[["冰淇淋紅茶",30],["紅茶牛奶",20],["泰式奶茶",30],["柚子茶",20],["無糖綠茶",5]]
 };
 const mainSets = {
-  chefPotMain:[["白飯",0],["寬冬粉",0],["泡麵",0],["意麵",15],["烏龍",20]],
+  chefPotMain:[["白飯",0],["寬冬粉",0],["泡麵",0],["意麵",10],["烏龍",20]],
   pot:[["白飯",0],["寬冬粉",0],["泡麵",0],["意麵",0],["烏龍",20]],
   stirMain:[["意麵",0],["烏龍麵",20]]
 };
