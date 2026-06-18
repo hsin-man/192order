@@ -414,7 +414,7 @@ function saveMenuChanges(){
   const changes = Object.keys(menuChanges).map(name=>({name:name, status:menuChanges[name]}));
   if(!changes.length){ alert('目前沒有需要儲存的變更'); return; }
   if(!confirm('確定儲存 ' + changes.length + ' 個品項變更？')) return;
-  jsonp({action:'adminBatchSetMenuStatus', pin:adminPin, changes:JSON.stringify(changes)}).then(res=>{
+  jsonp({action:'adminBatchMenuStatus', pin:adminPin, items:encodeURIComponent(JSON.stringify(changes))}).then(res=>{
     if(!res.ok){ alert(res.message || '儲存失敗'); return; }
     alert('已儲存 ' + (res.updated || changes.length) + ' 個品項');
     loadMenu();
